@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quebra-Cabeça de Imagens 🧩</title>
+
+    <script src="cdn_tailwindcss_com_3_4_17.js"></script>
+    <script src="script_imagem.js?v=4" defer></script>
+
+    <style>
+        .piece {
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="bg-amber-100 min-h-screen flex items-center justify-center p-2 sm:p-4 font-sans select-none">
+
+    <div class="bg-white p-4 sm:p-6 rounded-3xl shadow-2xl border-4 border-amber-300 w-full max-w-3xl my-auto flex flex-col justify-between">
+
+        <!-- TELA 1: GALERIA DE IMAGENS -->
+        <div id="gallery-screen" class="text-center">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-indigo-600 mb-1">
+                🧩 Escolha uma Imagem
+            </h1>
+            <p class="text-gray-600 font-medium mb-3 text-xs sm:text-sm">Selecione o nível de dificuldade e a imagem para montar:</p>
+
+            <!-- Seleção de Dificuldade (4 Níveis) -->
+            <div class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-4">
+                <button onclick="setGridSize(2)" id="btn-diff-2" class="diff-btn px-2.5 py-1.5 rounded-xl font-bold text-xs sm:text-sm bg-gray-200 text-gray-700 hover:bg-gray-300">Fácil (2x2)</button>
+                <button onclick="setGridSize(3)" id="btn-diff-3" class="diff-btn px-2.5 py-1.5 rounded-xl font-bold text-xs sm:text-sm bg-indigo-500 text-white shadow-md">Médio (3x3)</button>
+                <button onclick="setGridSize(4)" id="btn-diff-4" class="diff-btn px-2.5 py-1.5 rounded-xl font-bold text-xs sm:text-sm bg-gray-200 text-gray-700 hover:bg-gray-300">Difícil (4x4)</button>
+                <button onclick="setGridSize(5)" id="btn-diff-5" class="diff-btn px-2.5 py-1.5 rounded-xl font-bold text-xs sm:text-sm bg-gray-200 text-gray-700 hover:bg-gray-300">Expert (5x5)</button>
+            </div>
+
+            <div class="mb-4">
+                <input type="file" id="user-photo-input" accept="image/*" class="hidden" onchange="handleUserPhoto(event)">
+                <label for="user-photo-input" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-xl shadow-md cursor-pointer text-xs sm:text-sm transition inline-flex items-center gap-2 active:scale-95">
+                    📷 Usar minha própria foto
+                </label>
+            </div>
+
+            <div id="gallery-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 max-h-[50vh] sm:max-h-[60vh] overflow-y-auto p-2 bg-amber-50 rounded-2xl border-2 border-amber-200">
+            </div>
+        </div>
+
+        <!-- TELA 2: TABULEIRO DO JOGO -->
+        <div id="game-screen" class="hidden flex flex-col items-center w-full text-center">
+
+            <div class="flex flex-wrap justify-between items-center w-full mb-3 gap-2">
+                <button onclick="showGallery()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-1.5 px-3 rounded-xl transition text-xs">
+                    ⬅️ Voltar
+                </button>
+
+                <!-- Troca rápida de nível durante o jogo -->
+                <div class="flex gap-1">
+                    <button onclick="changeGridAndReset(2)" id="btn-game-diff-2" class="game-diff-btn px-2 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700">2x2</button>
+                    <button onclick="changeGridAndReset(3)" id="btn-game-diff-3" class="game-diff-btn px-2 py-1 rounded-lg text-xs font-bold bg-indigo-500 text-white">3x3</button>
+                    <button onclick="changeGridAndReset(4)" id="btn-game-diff-4" class="game-diff-btn px-2 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700">4x4</button>
+                    <button onclick="changeGridAndReset(5)" id="btn-game-diff-5" class="game-diff-btn px-2 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700">5x5</button>
+                </div>
+
+                <button onclick="initPuzzle()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-1.5 px-3 rounded-xl shadow-md text-xs transition active:scale-95">
+                    🔄 Embaralhar
+                </button>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 items-center justify-center w-full">
+
+                <!-- Tabuleiro -->
+                <div class="flex flex-col items-center">
+                    <span class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1">Tabuleiro</span>
+                    <div id="board" class="grid gap-0 bg-amber-200 rounded-2xl shadow-inner w-72 h-72 sm:w-80 sm:h-80 overflow-hidden border-2 border-amber-300">
+                    </div>
+                </div>
+
+                <!-- Área de Peças Soltas -->
+                <div class="flex flex-col items-center w-full sm:w-auto">
+                    <span class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1">Peças Soltas</span>
+                    <div id="pieces-bank" class="flex flex-wrap gap-2 bg-amber-50 p-3 rounded-2xl border-2 border-amber-200 w-72 min-h-[160px] sm:w-80 sm:h-80 items-center justify-center overflow-y-auto">
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="win-message" class="hidden mt-3 bg-emerald-100 border-2 border-emerald-400 p-2.5 rounded-2xl text-emerald-800 font-bold text-sm animate-bounce w-full">
+                🎉 Parabéns! Você completou o quebra-cabeça! 🌟
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
