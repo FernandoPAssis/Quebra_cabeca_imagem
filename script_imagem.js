@@ -2,6 +2,8 @@ const galeriaImagens = [
     { id: 1, titulo: 'Hello Kitty', thumb: 'assets/thumbs/hello_kitty.webp', full: 'assets/thumbs/hello_kitty.webp' },
     { id: 2, titulo: 'Brasil', thumb: 'assets/thumbs/Brasil.webp', full: 'assets/thumbs/Brasil.webp' },
     { id: 3, titulo: 'ABC', thumb: 'assets/thumbs/ABC.webp', full: 'assets/thumbs/ABC.webp' },
+    { id: 4, titulo: 'Patrulha Canina', thumb: 'assets/thumbs/patrulhaCanina.webp', full: 'assets/thumbs/patrulhaCanina.webp' },
+
     // ... até completar as 30 imagens
 ];
 
