@@ -3,6 +3,7 @@ const galeriaImagens = [
     { id: 2, titulo: 'Brasil', thumb: 'assets/thumbs/Brasil.webp', full: 'assets/thumbs/Brasil.webp' },
     { id: 3, titulo: 'ABC', thumb: 'assets/thumbs/ABC.webp', full: 'assets/thumbs/ABC.webp' },
     { id: 4, titulo: 'Patrulha Canina', thumb: 'assets/thumbs/patrulhaCanina.webp', full: 'assets/thumbs/patrulhaCanina.webp' },
+    { id: 5, titulo: 'Numberblocks', thumb: 'assets/thumbs/Numberblocks.webp', full: 'assets/thumbs/Numberblocks.webp' },
 
     // ... até completar as 30 imagens
 ];
